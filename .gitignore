@@ -1,0 +1,15 @@
+# Kit Segundo Cérebro — o que não vai para o repositório
+.DS_Store
+__pycache__/
+*.pyc
+# baixado pelo baixar_vendor.py; gerado/criado pelo app em uso
+vendor/
+.estado/
+Mapa do Segundo Cérebro.html
+Mapa do Segundo Cérebro (2D).html
+Mapa/voz/roteiro/
+Mapa/voz/saudacoes/
+Mapa/voz/.ultimo-erro.json
+# configuração com chave: nunca no git (só o modelo .exemplo entra)
+*.env
+!*.env.exemplo

@@ -1,0 +1,106 @@
+/* Campos próprios (ui/45-campos.js): substituem visualmente o <select> e o <input type="date"> nativos.
+   O nativo continua no DOM (name, id, value, eventos) só que invisível; o botão .sc-sel / .sc-data entra logo depois dele.
+   Listas e calendário abrem em position:fixed, no <body>, com a mesma linguagem do resto do app:
+   bordas de 1px, sem raio, rótulos em mono caixa alta, fundo --sc-sup e realce ciano. */
+
+/* ---------- nativos escondidos (continuam no DOM e na ordem do formulário) ---------- */
+.sc-sel-nativo,.sc-data-nativo{position:absolute !important;width:1px !important;height:1px !important;margin:0 !important;padding:0 !important;border:0 !important;
+  opacity:0 !important;pointer-events:none !important;overflow:hidden !important;clip-path:inset(50%) !important;white-space:nowrap !important}
+/* o pai do nativo vira âncora do position:absolute, para o 1px não ficar solto fora da área de rolagem do modal */
+.sc-ancora-nativo{position:relative}
+.sc-sel-nativo[hidden]+.sc-sel,.sc-data-nativo[hidden]+.sc-data{display:none}
+
+/* ---------- botões (mesma caixa dos .sc-entrada dos modais) ---------- */
+.sc-sel,.sc-data{box-sizing:border-box;position:relative;display:flex;align-items:center;gap:8px;width:100%;min-width:0;height:38px;margin:0;padding:0 10px 0 11px;
+  border:1px solid var(--sc-linha-2);border-radius:0;background:rgba(1,6,11,.6);color:var(--text);
+  font:400 13.5px/1.2 var(--sans);letter-spacing:0;text-align:left;text-transform:none;cursor:pointer;outline:0;-webkit-appearance:none;appearance:none;
+  transition:border-color .16s,box-shadow .16s,background .16s,opacity .16s}
+.sc-sel:hover:not([disabled]),.sc-data:hover:not([disabled]){border-color:rgba(95,225,255,.34)}
+.sc-sel:focus,.sc-sel:focus-visible,.sc-sel[aria-expanded="true"],
+.sc-data:focus,.sc-data:focus-visible,.sc-data[aria-expanded="true"]{outline:0;border-color:var(--edge-strong);box-shadow:0 0 0 1px rgba(95,225,255,.12),0 0 20px rgba(95,225,255,.07)}
+.sc-sel[disabled],.sc-data[disabled]{opacity:.45;cursor:not-allowed}
+/* erro de validação (o formulário marca aria-invalid no nativo; o JS espelha no botão) */
+.sc-sel-nativo[aria-invalid="true"]+.sc-sel,.sc-data-nativo[aria-invalid="true"]+.sc-data,.sc-sel[aria-invalid="true"],.sc-data[aria-invalid="true"]{border-color:var(--sc-erro)}
+
+.sc-sel-txt,.sc-data-txt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc-data-txt{font-variant-numeric:tabular-nums}
+.sc-sel.vazio .sc-sel-txt{color:var(--sc-texto-2)}
+.sc-data.vazio .sc-data-txt{color:var(--muted)}
+.sc-sel-seta,.sc-data-ico{flex:none;color:var(--muted);transition:transform .18s var(--sc-ease),color .16s}
+.sc-sel:hover:not([disabled]) .sc-sel-seta,.sc-data:hover:not([disabled]) .sc-data-ico{color:var(--text)}
+.sc-sel[aria-expanded="true"] .sc-sel-seta{transform:rotate(180deg);color:var(--cyan)}
+.sc-data[aria-expanded="true"] .sc-data-ico{color:var(--cyan)}
+
+/* versão compacta: barras de ferramentas (.sc-select-mini) */
+.sc-sel.mini{width:auto;max-width:100%;height:34px;gap:7px;padding:0 8px 0 10px;background:rgba(2,8,14,.55);font:400 10px/1.2 var(--mono);letter-spacing:.08em}
+
+/* ---------- lista do select ---------- */
+.sc-lst{position:fixed;z-index:66;box-sizing:border-box;display:flex;flex-direction:column;border:1px solid var(--edge);border-radius:0;
+  background:var(--sc-sup);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--sc-sombra);outline:0;
+  transform-origin:top center;animation:scCampoEntra .14s var(--sc-ease)}
+.sc-lst.acima{transform-origin:bottom center;animation-name:scCampoEntraAcima}
+.sc-lst.mini{width:max-content;max-width:min(380px,calc(100vw - 16px))}
+.sc-lst-busca{flex:none;display:flex;align-items:center;gap:8px;height:36px;padding:0 11px;border-bottom:1px solid var(--sc-linha)}
+.sc-lst-busca span{color:var(--cyan);font:400 12px var(--mono)}
+.sc-lst-busca input{flex:1;min-width:0;padding:0;background:none;border:0;border-radius:0;outline:0;box-shadow:none;font:400 12px var(--mono);letter-spacing:.04em;color:var(--text)}
+.sc-lst-busca input::placeholder{color:var(--faint)}
+.sc-lst-rol{position:relative;flex:1;min-height:0;max-height:288px;overflow:auto;overscroll-behavior:contain;padding:4px;outline:0;
+  scrollbar-width:thin;scrollbar-color:rgba(95,225,255,.28) transparent}
+.sc-op{display:block;box-sizing:border-box;min-height:34px;padding:8px 11px;font:400 13px/1.35 var(--sans);color:var(--text);cursor:pointer;user-select:none;-webkit-user-select:none;
+  overflow-wrap:anywhere;transition:background .12s,color .12s}
+.sc-op.ativo{background:rgba(95,225,255,.08)}
+.sc-op[aria-selected="true"]{color:#fff;box-shadow:inset 2px 0 0 var(--cyan)}
+.sc-op[aria-disabled="true"]{color:var(--faint);cursor:not-allowed}
+.sc-op-grupo{padding:10px 11px 4px;font:500 10px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.sc-lst-vazio{padding:14px 11px;text-align:center;font:400 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.sc-lst.mini .sc-op{min-height:28px;padding:6px 10px;font:400 11px/1.3 var(--mono);letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* o foco da lista/grade é virtual (aria-activedescendant): sem o anel padrão do app, que é mais forte que isto */
+.sc-lst .sc-lst-rol,.sc-lst .sc-lst-rol:focus,.sc-lst .sc-lst-rol:focus-visible,
+.sc-cal .sc-cal-grade,.sc-cal .sc-cal-grade:focus,.sc-cal .sc-cal-grade:focus-visible,
+.sc-lst .sc-lst-busca input:focus,.sc-lst .sc-lst-busca input:focus-visible{outline:0;box-shadow:none}
+
+/* ---------- calendário ---------- */
+.sc-cal{position:fixed;z-index:66;box-sizing:border-box;width:292px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);overflow:auto;padding:12px 12px 10px;
+  border:1px solid var(--edge);border-radius:0;background:var(--sc-sup);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--sc-sombra);outline:0;
+  transform-origin:top left;animation:scCampoEntra .14s var(--sc-ease)}
+.sc-cal.acima{transform-origin:bottom left;animation-name:scCampoEntraAcima}
+.sc-cal-cab{display:grid;grid-template-columns:28px minmax(0,1fr) 28px;align-items:center;margin-bottom:8px}
+.sc-cal-titulo{text-align:center;font:500 10px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#fff}
+.sc-cal-nav{display:grid;place-items:center;width:28px;height:28px;padding:0;border:1px solid transparent;border-radius:0;background:none;cursor:pointer;color:var(--muted);font:14px/1 var(--mono);
+  transition:border-color .16s,color .16s,background .16s}
+.sc-cal-nav:hover{border-color:var(--edge);color:#fff}
+.sc-cal-sem,.sc-cal-linha{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.sc-cal-sem span{display:grid;place-items:center;height:22px;font:500 10px var(--mono);letter-spacing:.1em;color:var(--muted)}
+.sc-cal-grade{outline:0}
+.sc-cal-dia{position:relative;display:grid;place-items:center;height:34px;padding:0;border:0;border-radius:0;background:none;cursor:pointer;color:var(--text);
+  font:400 12px var(--mono);font-variant-numeric:tabular-nums;transition:background .12s,color .12s}
+.sc-cal-dia.fora{color:var(--faint)}
+.sc-cal-dia:hover,.sc-cal-dia.foco{background:rgba(95,225,255,.08)}
+.sc-cal-dia.hoje{box-shadow:inset 0 0 0 1px var(--cyan)}
+.sc-cal-dia.sel{background:rgba(95,225,255,.16);color:#fff}
+.sc-cal-dia[aria-disabled="true"]{opacity:.3;cursor:not-allowed;background:none}
+.sc-cal.teclado .sc-cal-dia.foco{outline:1px solid var(--edge-strong);outline-offset:-1px}
+.sc-cal-rodape{display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:9px;border-top:1px solid var(--sc-linha)}
+.sc-cal-atalho{height:26px;padding:0 9px;border:1px solid var(--edge);border-radius:0;background:rgba(95,225,255,.03);cursor:pointer;color:var(--text);
+  font:500 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;transition:border-color .16s,background .16s,color .16s,opacity .16s}
+.sc-cal-atalho:hover:not([disabled]){border-color:var(--edge-strong);background:rgba(95,225,255,.09);color:#fff}
+.sc-cal-atalho[disabled]{opacity:.38;cursor:not-allowed}
+.sc-cal-atalho.limpar{margin-left:auto;border-color:transparent;background:none;color:var(--muted)}
+.sc-cal-atalho.limpar:hover:not([disabled]){border-color:var(--sc-linha-2);background:none;color:#fff}
+
+@keyframes scCampoEntra{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes scCampoEntraAcima{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.sc-lst.sem-mov,.sc-cal.sem-mov{animation:none}
+
+/* ---------- telas pequenas ---------- */
+@media (max-width:520px){
+  .sc-cal-dia{height:38px}
+  .sc-op{min-height:40px}
+  .sc-lst.mini .sc-op{min-height:34px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .sc-sel,.sc-data,.sc-sel-seta,.sc-data-ico,.sc-op,.sc-cal-dia,.sc-cal-nav,.sc-cal-atalho{transition:none !important}
+  .sc-lst,.sc-cal{animation:none !important}
+}

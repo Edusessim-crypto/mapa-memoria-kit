@@ -1,0 +1,58 @@
+Áudios que vieram prontos com o kit (voz do Jarvis de quem montou o kit).
+Só frases fixas do sistema; nenhuma cita nome, cliente, projeto ou conteúdo do vault de origem.
+O app usa estes arquivos para qualquer voz configurada; apague a pasta para gravar tudo na sua voz.
+
+== voz/pre-gravados (43 arquivos, indexados pelo texto em pre-gravados.json) ==
+035b128f320f061a.mp3  —  Encontrei algumas notas, estou organizando a resposta.
+03ad17249ca50a0f.mp3  —  Aproximando.
+08089c61dc1fa12e.mp3  —  Um instante, senhor.
+0e74bb5adaa6edf9.mp3  —  Bom dia, senhor. Sistemas online. Vou verificar isso para você.
+146ae8d26057d67c.mp3  —  Entendido. Levantando os dados.
+1bce346b2d4de52c.mp3  —  Você pode pedir: abrir um sistema ou uma nota, buscar, mostrar as decisões travadas, modo apresentação, visão geral, aproximar, afastar, pausar, esconder ou mostrar categorias, e ligar ou desligar o som.
+1cac91f06de01727.mp3  —  Boa pergunta. Só um segundo.
+1d6b0d517db9e683.mp3  —  Boa noite, senhor. Vou consultar o núcleo de memória.
+1d802f4ea55a7e98.mp3  —  Só mais um instante, senhor.
+2112c3d414afd74a.mp3  —  Movimento retomado.
+3026ab85e2d08961.mp3  —  Feito.
+312472b3c0e653e0.mp3  —  Iniciando a apresentação.
+31e4553280d3e864.mp3  —  Movimento pausado.
+32843d88e1055ba6.mp3  —  Não entendi. Diga ajuda para ouvir os comandos.
+356ecf0f79840ceb.mp3  —  Quase pronto.
+36466d0def0c7d8c.mp3  —  Conferindo os detalhes para não lhe passar nada errado.
+48b920d10241d9f1.mp3  —  Apresentação encerrada.
+4d9191fb167bf05c.mp3  —  Um momento, estou checando os detalhes.
+50e8c6c03327d0ab.mp3  —  Boa tarde. Sistemas prontos. Já estou pesquisando.
+58e373e9c00dacff.mp3  —  Abrindo o núcleo de memória.
+6a44eb23f9c0e627.mp3  —  Verificando.
+6b533d3c33250f99.mp3  —  Pesquisando no Segundo Cérebro.
+70693f1b067cbc4d.mp3  —  Consultando os registros.
+762b09573a4f79fc.mp3  —  Boa noite. Trabalhando até tarde, como sempre. Já estou verificando.
+7e84b4ad1c54b1a8.mp3  —  Pronto.
+875fc74f92e98a49.mp3  —  Analisando as notas relacionadas.
+8bca2e8044fc6c40.mp3  —  Visão geral.
+95487d2b857bbc54.mp3  —  Abrindo a nota.
+9e25ddcd89177f37.mp3  —  Boa noite, senhor. Um momento, estou cruzando as informações.
+a0788243006fa502.mp3  —  Certo. Já estou pesquisando.
+a249bcb1d85b3db1.mp3  —  Acessando o núcleo de memória.
+a5363a57612c9b22.mp3  —  Afastando.
+abfa629b27b33939.mp3  —  Deixe-me ver o que temos sobre isso.
+baac3a3043fd4fb6.mp3  —  Apresentação concluída.
+c7fe78ad8342b3b3.mp3  —  Boa tarde, senhor. Deixe comigo, vou levantar isso agora.
+cddf6c429d044329.mp3  —  Ainda estou analisando, quase lá.
+d53ea5b05166186f.mp3  —  Abrindo o painel do sistema.
+e303eb0ead5435b1.mp3  —  Buscando.
+e33e8ac97e2d641f.mp3  —  Bom dia. Já estou acessando o Segundo Cérebro, um instante.
+e89f44f6a1a0bacd.mp3  —  Boa tarde, senhor. Um instante, estou acessando os seus arquivos.
+f0214be427f94362.mp3  —  Cruzando projetos e decisões, um momento.
+fa056b6497980d49.mp3  —  Bom dia, senhor. Deixe-me consultar os seus registros.
+fd84bada5c8f825e.mp3  —  Cruzando as últimas referências.
+
+== voz/avisos (4 avisos falados antes de pesquisar, indexados pelo texto; .json = tempos das frases) ==
+51501ab1faa5e299.mp3  —  Um instante, senhor. Vou conferir nas notas.
+9ff599f159287188.mp3  —  Um instante, senhor. Vou ver o que foi registrado hoje.
+bbc1b40647e61978.mp3  —  Um instante, senhor. Vou localizar essa pendência.
+ed129524de77636b.mp3  —  Um instante, senhor. Vou conferir as notas de hoje.
+
+== Ficaram de fora (conteúdo pessoal de quem montou o kit) ==
+53 áudios da raiz de voz/ (narração de cada sistema, 'abrindo/acessando o sistema X', a saudação de teste com o nome e a contagem de decisões travadas),
+3 saudações de abertura (voz/saudacoes) e 14 narrações da apresentação (voz/roteiro).

@@ -1,0 +1,56 @@
+/* Jarvis no centro (ui/80-jarvis.js): legenda sincronizada com a fala, notas citadas em etiquetas,
+   e o HUD some enquanto o Núcleo fala (body.jarvis-centro). A barra antiga de voz (#sc-voz) fica escondida
+   sempre que esta camada existe (html.sc-jarvis). */
+html.sc-jarvis #sc-voz{display:none !important}
+
+#sc-jarvis{position:fixed;z-index:61;left:50%;bottom:max(16vh,120px);transform:translate(-50%,10px);width:min(780px,92vw);
+  display:grid;justify-items:center;gap:12px;text-align:center;pointer-events:none;opacity:0;
+  transition:opacity .28s ease,transform .36s var(--sc-ease),bottom .5s var(--sc-ease)}
+#sc-jarvis.on{opacity:1;transform:translate(-50%,0)}
+body.jarvis-centro #sc-jarvis{bottom:max(10vh,84px)}
+body.sc-com-gaveta #sc-jarvis{left:calc(50% - var(--sc-direita) / 2);width:min(680px,calc(100vw - var(--sc-direita) - 340px))}
+
+/* notas citadas na resposta: etiquetas sob a legenda (a câmera vai até elas quando a fala termina) */
+#sc-jarvis .sc-jarvis-notas{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:100%;margin-top:4px}
+#sc-jarvis .sc-jarvis-notas:empty{display:none}
+#sc-jarvis .sc-jarvis-notas span,#sc-jarvis .sc-jarvis-notas i{display:inline-flex;align-items:center;gap:6px;max-width:240px;padding:4px 10px;border-radius:999px;
+  font:400 11.5px var(--sans);font-style:normal;color:#dceef5;background:rgba(8,20,28,.55);border:1px solid var(--faint);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;animation:scJarvisFrase .4s var(--sc-ease) both}
+#sc-jarvis .sc-jarvis-notas span::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--c,var(--cyan));box-shadow:0 0 6px var(--c,var(--cyan))}
+#sc-jarvis .sc-jarvis-notas i{color:var(--muted)}
+
+/* texto: quem falou (em), estado (small), frase atual (b), frase anterior (span) */
+#sc-jarvis .sc-jarvis-txt{display:grid;gap:8px;justify-items:center;max-width:100%}
+#sc-jarvis em{font:400 12px var(--mono);font-style:normal;letter-spacing:.04em;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#sc-jarvis em:empty{display:none}
+#sc-jarvis small{display:inline-flex;align-items:center;gap:8px;font:500 10px var(--mono);letter-spacing:.3em;color:var(--cyan);text-transform:uppercase}
+#sc-jarvis small::before,#sc-jarvis small::after{content:"";width:22px;height:1px;background:linear-gradient(90deg,transparent,var(--edge-strong));opacity:.8}
+#sc-jarvis small::after{background:linear-gradient(90deg,var(--edge-strong),transparent)}
+#sc-jarvis b{display:block;font:500 20px/1.45 var(--sans);letter-spacing:-.005em;color:#fff;text-shadow:0 0 24px rgba(95,225,255,.35),0 2px 18px rgba(0,0,0,.7);
+  text-wrap:balance;max-width:100%;transition:opacity .2s}
+#sc-jarvis b.troca{animation:scJarvisFrase .32s var(--sc-ease)}
+@keyframes scJarvisFrase{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#sc-jarvis .sc-jarvis-prev{display:block;font:400 13.5px/1.4 var(--sans);color:rgba(169,196,207,.55);max-width:88%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#sc-jarvis .sc-jarvis-prev:empty{display:none}
+#sc-jarvis.ouvindo small,#sc-jarvis.ouvindo small::before,#sc-jarvis.ouvindo small::after{color:var(--cyan)}
+#sc-jarvis.pensando small{color:var(--sc-texto-2)}
+#sc-jarvis.erro small{color:#ff9a9a}
+#sc-jarvis.ok small{color:var(--sc-ok)}
+#sc-jarvis.ouvindo b,#sc-jarvis.pensando b{font-size:16px;font-weight:400;color:#dceef5}
+#sc-jarvis.erro b{color:#ffd0d5}
+/* barra de progresso da fala (fina, abaixo da frase) */
+#sc-jarvis .sc-jarvis-bar{width:min(320px,60%);height:1px;background:var(--faint);position:relative;overflow:hidden;opacity:0;transition:opacity .25s}
+#sc-jarvis.falando .sc-jarvis-bar{opacity:1}
+#sc-jarvis .sc-jarvis-bar i{position:absolute;inset:0;background:var(--cyan);box-shadow:0 0 8px var(--cyan);transform-origin:left;transform:scaleX(var(--p,0))}
+
+/* enquanto o Núcleo fala no centro: HUD some, como na apresentação */
+body.jarvis-centro .search,body.jarvis-centro .filters,body.jarvis-centro #sc-camadas,body.jarvis-centro .index,body.jarvis-centro .controls,
+body.jarvis-centro .telemetry,body.jarvis-centro .brand .stats,body.jarvis-centro .brand .sub,body.jarvis-centro .tour,body.jarvis-centro #sc-hoje-btn,
+body.jarvis-centro #sc-inspector,body.jarvis-centro #sc-sincronia,body.jarvis-centro .vozes,body.jarvis-centro #sc-mobile-btn{opacity:0 !important;pointer-events:none !important}
+body.jarvis-centro #reticle,body.jarvis-centro #leader{visibility:hidden}
+body.jarvis-centro #labels .lbl,body.jarvis-centro #labels .sys:not(.core){visibility:hidden}
+body.jarvis-centro .vignette{background:radial-gradient(ellipse at center,transparent 34%,rgba(0,0,0,.82) 100%)}
+.vignette{transition:background .6s ease}
+
+@media (prefers-reduced-motion: reduce){ #sc-jarvis,#sc-jarvis b,#sc-jarvis .sc-jarvis-notas span,#sc-jarvis .sc-jarvis-notas i{transition:none !important;animation:none !important} }
+@media (max-width:860px){ #sc-jarvis b{font-size:17px} #sc-jarvis{bottom:max(14vh,96px)} }

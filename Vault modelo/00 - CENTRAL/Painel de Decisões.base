@@ -1,0 +1,12 @@
+filters:
+  and:
+    - 'type == "decisao"'
+views:
+  - type: table
+    name: Decisões
+    order:
+      - file.name
+      - data
+      - status
+      - travado
+      - projeto

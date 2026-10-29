@@ -1,0 +1,2 @@
+Notas fictícias (Padaria Aurora, Oficina Rodas) usadas só pelos testes.
+Os testes copiam o vault modelo (ou o seu vault) para uma pasta temporária, sobrepõem estas notas e apagam tudo no fim.

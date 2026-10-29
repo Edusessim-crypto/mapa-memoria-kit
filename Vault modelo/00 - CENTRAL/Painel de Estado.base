@@ -1,0 +1,46 @@
+filters:
+  and:
+    - 'estado != ""'
+views:
+  - type: table
+    name: Ativo
+    filters:
+      and:
+        - 'estado == "ativo"'
+    groupBy:
+      property: type
+      direction: ASC
+    order:
+      - file.name
+      - type
+      - status
+      - cliente
+      - projeto
+  - type: table
+    name: Referência
+    filters:
+      and:
+        - 'estado == "referencia"'
+    groupBy:
+      property: type
+      direction: ASC
+    order:
+      - file.name
+      - type
+      - status
+      - cliente
+      - projeto
+  - type: table
+    name: Arquivo
+    filters:
+      and:
+        - 'estado == "arquivo"'
+    groupBy:
+      property: type
+      direction: ASC
+    order:
+      - file.name
+      - type
+      - status
+      - substituida_por
+      - file.folder

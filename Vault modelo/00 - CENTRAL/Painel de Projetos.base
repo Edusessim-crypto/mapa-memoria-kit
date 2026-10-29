@@ -1,0 +1,12 @@
+filters:
+  and:
+    - 'type == "projeto"'
+views:
+  - type: table
+    name: Projetos
+    order:
+      - file.name
+      - status
+      - cliente
+      - categoria
+      - ultima_atualizacao

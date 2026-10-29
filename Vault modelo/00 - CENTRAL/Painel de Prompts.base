@@ -1,0 +1,27 @@
+filters:
+  and:
+    - 'type == "prompt"'
+views:
+  - type: table
+    name: Por status
+    groupBy:
+      property: status
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - ferramenta
+      - projeto
+      - data
+      - versao
+  - type: table
+    name: Reutilizáveis (ativos e de referência)
+    filters:
+      and:
+        - 'estado != "arquivo"'
+    order:
+      - file.name
+      - status
+      - ferramenta
+      - projeto
+      - data

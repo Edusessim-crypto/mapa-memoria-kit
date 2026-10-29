@@ -1,0 +1,12 @@
+voz/*.mp3
+voz/avisos/
+voz/roteiro/
+voz/saudacoes/
+voz/.ultimo-erro.json
+vendor/
+__pycache__/
+# gerados pelo gerar_mapa.py a cada abertura do app (mudariam a cada uso)
+Mapa do Segundo Cérebro.html
+Mapa do Segundo Cérebro (2D).html
+.estado/
+.DS_Store
